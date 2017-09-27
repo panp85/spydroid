@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\spydroid.xml",
+        "source": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\src\\main\\res\\layout-sw600dp\\spydroid.xml"
+    },
+    {
+        "merged": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\tablet.xml",
+        "source": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\src\\main\\res\\layout-sw600dp\\tablet.xml"
+    },
+    {
+        "merged": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\preview.xml",
+        "source": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\src\\main\\res\\layout-sw600dp\\preview.xml"
+    }
+]

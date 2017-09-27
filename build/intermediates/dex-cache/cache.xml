@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\android_projects\spydroid-ipcamera1\Spydroid\libs\GoogleAdMobAdsSdk-6.1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="0d7313ca1a34c9ce2de798006511a4b6bc26b90b">
+        <dex dex="C:\android_projects\spydroid-ipcamera1\Spydroid\build\intermediates\pre-dexed\debug\GoogleAdMobAdsSdk-6.1.0_a97f9548973303aaed3f67036387e3b62b4fa3de.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\android_projects\spydroid-ipcamera1\Spydroid\libs\scprov-jdk15on-1.47.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="1e2f52dbf7402b12b792282078b9f895512ae5af">
+        <dex dex="C:\android_projects\spydroid-ipcamera1\Spydroid\build\intermediates\pre-dexed\debug\scprov-jdk15on-1.47.0.2_1458147e5f0c14a62073e4c9ed42333ff4abc20c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\android_projects\spydroid-ipcamera1\Spydroid\libs\sc-light-jdk15on-1.47.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d5c98671cc97fa0d928be1c7eb5edd3fb95d3234">
+        <dex dex="C:\android_projects\spydroid-ipcamera1\Spydroid\build\intermediates\pre-dexed\debug\sc-light-jdk15on-1.47.0.2_3ed35faca643036a116756988b6642dfe6530ed8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\android_projects\spydroid-ipcamera1\Spydroid\libs\gcm.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="a6d7bce795a14c7f86111756c4ceb44b79de14aa">
+        <dex dex="C:\android_projects\spydroid-ipcamera1\Spydroid\build\intermediates\pre-dexed\debug\gcm_237ba0b886b44062cfc91af82495f5dffdf6bbb9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\android_projects\spydroid-ipcamera1\Spydroid\libs\android-support-v4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="4a6be13368bb64c5a0b0460632d228a1a915f58f">
+        <dex dex="C:\android_projects\spydroid-ipcamera1\Spydroid\build\intermediates\pre-dexed\debug\android-support-v4_f9484cee2b041f30a20e411c8c4c0ea72d6d5b6e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\android_projects\spydroid-ipcamera1\Spydroid\libs\scpkix-jdk15on-1.47.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="6bed9af945c158e1e02dfbdf030179dd18e60d83">
+        <dex dex="C:\android_projects\spydroid-ipcamera1\Spydroid\build\intermediates\pre-dexed\debug\scpkix-jdk15on-1.47.0.2_75489c2ea231dc3a51fc059fd6e5c8bcff75e237.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\android_projects\spydroid-ipcamera1\Spydroid\libs\acra-4.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="7864f0ac6c74d84e465aa5449fa14408b0a1418f">
+        <dex dex="C:\android_projects\spydroid-ipcamera1\Spydroid\build\intermediates\pre-dexed\debug\acra-4.4.0_bf0cafdda8bec977eacd5bf781d8b7d5ed856474.jar" />
+    </item>
+
+</items>

@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\settings.png",
+        "source": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\src\\main\\res\\drawable-mdpi\\settings.png"
+    },
+    {
+        "merged": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\icon.png",
+        "source": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\src\\main\\res\\drawable-mdpi\\icon.png"
+    },
+    {
+        "merged": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\quit.png",
+        "source": "C:\\android_projects\\spydroid-ipcamera1\\Spydroid\\src\\main\\res\\drawable-mdpi\\quit.png"
+    }
+]

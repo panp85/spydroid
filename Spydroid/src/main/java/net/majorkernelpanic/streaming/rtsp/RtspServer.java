@@ -365,7 +365,7 @@ public class RtspServer extends Service {
 			Request request;
 			Response response;
 
-			Log.i(TAG, "Connection from "+mClient.getInetAddress().getHostAddress());
+			Log.i(TAG, "rtsp panpan test, in WorkerThread run, Connection from "+mClient.getInetAddress().getHostAddress());
 
 			while (!Thread.interrupted()) {
 
@@ -586,15 +586,17 @@ public class RtspServer extends Service {
 
 			// Parsing request method & uri
 			if ((line = input.readLine())==null) throw new SocketException("Client disconnected");
+			Log.i(TAG, "rtsp panpan test, in Request parseRequest, new request, line = " + line);
 			matcher = regexMethod.matcher(line);
 			matcher.find();
 			request.method = matcher.group(1);
 			request.uri = matcher.group(2);
-
+            Log.i(TAG, "rtsp panpan test, in Request parseRequest, request.method, request.uri = " + request.method + ", " + request.uri);
 			// Parsing headers of the request
 			while ( (line = input.readLine()) != null && line.length()>3 ) {
 				matcher = rexegHeader.matcher(line);
 				matcher.find();
+			    Log.i(TAG, "rtsp panpan test, in Request parseRequest, line = "+ line + ". " + matcher.group(1) + ", " + matcher.group(2));
 				request.headers.put(matcher.group(1).toLowerCase(Locale.US),matcher.group(2));
 			}
 			if (line==null) throw new SocketException("Client disconnected");

@@ -86,7 +86,7 @@ public class SpydroidActivity extends FragmentActivity {
 		setContentView(R.layout.spydroid);
 
 		if (findViewById(R.id.handset_pager) != null) {
-
+            Log.i(TAG, "spydroid panpan test, in onCreate, Handset.\n");
 			// Handset detected !
 			mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 			mViewPager = (ViewPager) findViewById(R.id.handset_pager);
@@ -96,7 +96,7 @@ public class SpydroidActivity extends FragmentActivity {
 			SessionBuilder.getInstance().setPreviewOrientation(90);
 			
 		} else {
-
+            Log.i(TAG, "spydroid panpan test, in onCreate, TABLET.\n");
 			// Tablet detected !
 			device = TABLET;
 			mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

@@ -116,6 +116,7 @@ public class H264Stream extends VideoStream {
 	 * and determines the pps and sps. Should not be called by the UI thread.
 	 **/
 	private MP4Config testH264() throws IllegalStateException, IOException {
+	    Log.i(TAG, "h264 panpan test, in testH264, mMode = " + mMode);
 		if (mMode != MODE_MEDIARECORDER_API) return testMediaCodecAPI();
 		else return testMediaRecorderAPI();
 	}
@@ -125,7 +126,9 @@ public class H264Stream extends VideoStream {
 		createCamera();
 		updateCamera();
 		try {
-			if (mQuality.resX>=640) {
+			Log.i(TAG, "h264 panpan test, in testMediaCodecAPI, mQuality.resX = " + mQuality.resX);
+			if (false/*mQuality.resX>=640*/) {//by panpan,170929
+				Log.i(TAG, "h264 panpan test, in testMediaCodecAPI, set to MODE_MEDIARECORDER_API.\n");
 				// Using the MediaCodec API with the buffer method for high resolutions is too slow
 				mMode = MODE_MEDIARECORDER_API;
 			}

@@ -65,7 +65,7 @@ public class EncoderDebugger {
 	private static final boolean DEBUG = false;
 	
 	/** Set this to true to see more logs. */
-	private static final boolean VERBOSE = false;
+	private static final boolean VERBOSE = true;//by panpan, 170929
 
 	/** Will be incremented every time this test is modified. */
 	private static final int VERSION = 3;
@@ -196,9 +196,10 @@ public class EncoderDebugger {
 		for (int i=0;i<encoders.length;i++) {
 			count += encoders[i].formats.length;
 		}
-		
+		Log.i(TAG, "codec panpan test, in debug, encoders.length = " + encoders.length);
 		// Tries available encoders
-		for (int i=0;i<encoders.length;i++) {
+		for (int i=1;i<encoders.length;i++) {//by panpan，170929，hardware encoder
+			Log.i(TAG, "codec panpan test, in debug, encoders[i].formats.length = " + encoders[i].formats.length);
 			for (int j=0;j<encoders[i].formats.length;j++) {
 				reset();
 				
@@ -291,7 +292,7 @@ public class EncoderDebugger {
 
 					saveTestResult(true);
 					Log.v(TAG, "The encoder "+mEncoderName+" is usable with resolution "+mWidth+"x"+mHeight);
-					return;
+					return;//by panpan, 170929，must have，unless throw exception.
 
 				} catch (Exception e) {
 					StringWriter sw = new StringWriter();
@@ -331,7 +332,8 @@ public class EncoderDebugger {
 		} else {
 			return true;
 		}
-		return false;
+		//return false;
+		return true; //by panpan, 20170929
 	}
 
 

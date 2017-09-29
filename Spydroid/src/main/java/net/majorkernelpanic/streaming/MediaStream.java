@@ -59,6 +59,7 @@ public abstract class MediaStream implements Stream {
 	protected AbstractPacketizer mPacketizer = null;
 
 	protected static byte sSuggestedMode = MODE_MEDIARECORDER_API;
+	//protected static byte sSuggestedMode = MODE_MEDIACODEC_API;//by panpan,20170928
 	protected byte mMode, mRequestedMode;
 
 	protected boolean mStreaming = false, mConfigured = false;

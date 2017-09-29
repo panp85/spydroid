@@ -90,11 +90,13 @@ public class MP4Config {
 
 	public String getB64PPS() {
 		Log.d(TAG, "PPS: "+mPPS);
+		Log.i(TAG, "spydroid panpan test, in start, mPPS = " + mPPS);
 		return mPPS;
 	}
 
 	public String getB64SPS() {
 		Log.d(TAG, "SPS: "+mSPS);
+		Log.i(TAG, "spydroid panpan test, in start, mSPS = " + mSPS);
 		return mSPS;
 	}
 

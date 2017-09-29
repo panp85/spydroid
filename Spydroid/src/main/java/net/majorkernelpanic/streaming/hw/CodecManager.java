@@ -70,7 +70,9 @@ public class CodecManager {
 			if (!codecInfo.isEncoder()) continue;
 
 			String[] types = codecInfo.getSupportedTypes();
+			Log.i(TAG, "codec panpan test, in findEncodersForMimeType, codecname = " + codecInfo.getName() + ", types.length = " + types.length);
 			for (int i = 0; i < types.length; i++) {
+				Log.i(TAG, "codec panpan test, in findEncodersForMimeType, types[i] = " + types[i]);
 				if (types[i].equalsIgnoreCase(mimeType)) {
 					try {
 						MediaCodecInfo.CodecCapabilities capabilities = codecInfo.getCapabilitiesForType(mimeType);
@@ -78,8 +80,9 @@ public class CodecManager {
 
 						// And through the color formats supported
 						for (int k = 0; k < capabilities.colorFormats.length; k++) {
+							
 							int format = capabilities.colorFormats[k];
-
+							Log.i(TAG, "codec panpan test, in findEncodersForMimeType, format = " + format);
 							for (int l=0;l<SUPPORTED_COLOR_FORMATS.length;l++) {
 								if (format == SUPPORTED_COLOR_FORMATS[l]) {
 									formats.add(format);

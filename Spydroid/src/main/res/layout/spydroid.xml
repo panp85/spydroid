@@ -48,15 +48,15 @@
             android:layout_alignParentLeft="true"
             android:orientation="vertical" >
 
-            <com.google.ads.AdView
-                xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="a1503ac1fd4e2ac"
-                ads:loadAdOnCreate="true"
-                ads:testDevices="TEST_EMULATOR" >
-            </com.google.ads.AdView>
+            <!--<com.google.ads.AdView-->
+                <!--xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--ads:adSize="SMART_BANNER"-->
+                <!--ads:adUnitId="a1503ac1fd4e2ac"-->
+                <!--ads:loadAdOnCreate="true"-->
+                <!--ads:testDevices="TEST_EMULATOR" >-->
+            <!--</com.google.ads.AdView>-->
         </LinearLayout>
     </RelativeLayout>
 

@@ -235,7 +235,8 @@ public class CustomHttpServer extends TinyHttpServer {
 
 				params.remove("id");
 				uri = "http://c?" + URLEncodedUtils.format(params, "UTF-8");
-
+                Log.i(TAG, "custumHttpServer ppt, in handle DescriptionRequestHandler, uri:" +  uri + 
+					", mSessionList[id].uri = " + mSessionList[id].uri);
 				if (!uri.equals(mSessionList[id].uri)) {
 
 					mSessionList[id].uri = uri;
@@ -268,7 +269,11 @@ public class CustomHttpServer extends TinyHttpServer {
 
 						// Sets proper origin & dest
 						mSessionList[id].session.setOrigin(socket.getLocalAddress().getHostAddress());
+						Log.i(TAG, "ppt, in handle, DescriptionRequestHandler, setOrigin: " + 
+							socket.getLocalAddress().getHostAddress());
 						if (mSessionList[id].session.getDestination()==null) {
+							Log.i(TAG, "ppt, in handle, DescriptionRequestHandler, setDestination: " + 
+								socket.getInetAddress().getHostAddress());
 							mSessionList[id].session.setDestination(socket.getInetAddress().getHostAddress());
 						}
 						
@@ -280,7 +285,8 @@ public class CustomHttpServer extends TinyHttpServer {
 						}
 
 						mSessionList[id].description = mSessionList[id].session.getSessionDescription().replace("Unnamed", "Stream-"+id);
-						Log.v(TAG, mSessionList[id].description);
+						//Log.v(TAG, mSessionList[id].description);
+						Log.i(TAG, "CustomHttpServer ppt, description: " + mSessionList[id].description);
 						
 					}
 				}

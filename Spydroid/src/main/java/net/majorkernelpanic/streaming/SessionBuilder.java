@@ -35,6 +35,7 @@ import net.majorkernelpanic.streaming.video.VideoStream;
 import android.content.Context;
 import android.hardware.Camera.CameraInfo;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 /**
  * Call {@link #getInstance()} to get access to the SessionBuilder.
@@ -110,7 +111,10 @@ public class SessionBuilder {
 		session.setDestination(mDestination);
 		session.setTimeToLive(mTimeToLive);
 		session.setCallback(mCallback);
-
+        Log.i(TAG, "ppt, in SessionBuilder build, mAudioEncoder: " +
+			mAudioEncoder + 
+			", mVideoEncoder:" + 
+			mVideoEncoder);
 		switch (mAudioEncoder) {
 		case AUDIO_AAC:
 			AACStream stream = new AACStream();

@@ -153,7 +153,7 @@ public class AACStream extends AudioStream {
 			}		
 		}
 		
-
+        Log.i(TAG, "ppt, in configure AACStream, mMode: " + mMode);
 		if (mMode == MODE_MEDIARECORDER_API) {
 
 			testADTS();

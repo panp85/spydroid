@@ -398,7 +398,96 @@ public abstract class VideoStream extends MediaStream {
 			encodeWithMediaCodecMethod1();
 		}
 	}	
+	//final
+	NV21Convertor convertor = null;
+    byte AAray[] = {
+	     //0x00,0x00,0x00,0x10,0x10,0x18,0x28,0x28,0x24,0x3C,0x44,0x42,0x42,(byte)0xE7,0x00,0x00
+	     0x00,0x00,0x00,(byte)0xE0,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x42,(byte)0xFE,0x00,0x00
+    };
+    static int sync = 0;
+	void addMark(byte[] data)
+	{
+	    byte tagY=0,tagU=0,tagV=0;
+	    byte offsetY[]=null;
+		byte offsetU[] = null;
+		byte offsetV[] =null;
+		if(sync++%10 != 0)
+		{
+		   //return;
+		}
+		
+		offsetU = offsetV = new byte[convertor.getStride()*convertor.getSliceHeigth()/2];
 
+	    byte p16, mask16; // for reading hzk16 dots
+        //Log.i(TAG, "spydroid ppt, in addMark, go in.");
+
+
+	    //yuv 地址的设置
+	    offsetY = data;
+
+		System.arraycopy(data, convertor.getStride()*convertor.getSliceHeigth(), offsetU, 0, convertor.getStride()*convertor.getSliceHeigth()/2);
+	    offsetV = offsetU;// + WIDTH * HEIGHT;
+	    //offsetV = ptr_frameV;// + WIDTH * HEIGHT/4;
+	    //byte p[] = data;
+        int color = 1;
+	    switch (color)
+	    {
+
+	        case 0:         // Yellow
+	            tagY = (byte)226;tagU = 0;tagV = (byte)149;
+	            break;
+	        case 1:         // Red
+	            tagY = 76;tagU = 85;tagV = (byte)255;
+	            break;
+	        case 2:         // Green
+	            tagY = (byte)150;tagU = 44;tagV = 21;
+	            break;
+	        case 3:         // Blue
+	            tagY = 29;tagU = (byte)255;tagV = 107;
+	            break;
+	        default:        // White
+	            tagY = (byte)128;tagU = (byte)128;tagV = (byte)128;
+
+	    }
+        int starty = 100; 
+		int startx = 100;
+		//int heig = 20;
+	    int x=0,y=0,i=1,j=0,k=0;
+	    for(i = 0; i < 1 ;i++)
+	    {
+			//Log.i(TAG, "spydroid ppt, in addMark, new frame.");
+	        for (j = 0, y = starty; j < 16 && y < convertor.getSliceHeigth() - 1; j++, y+=2)
+	        {
+				//Log.i(TAG, "spydroid ppt, in addMark, new line: " + j);
+	            p16 = AAray[j];
+	            mask16 = (byte)0x80;  // 二进制 1000 0000
+	            //for (k = 0, x = startx +i*32; k < 16 && x < WIDTH - 1; k++, x+=2)   // dots in a line
+	            for (k = 0, x = startx + i*16; k < 8 && x < convertor.getStride() - 1; k++, x+=2)
+	            {
+					//Log.i(TAG, "spydroid ppt, in addMark, p16, mask16: " + p16 + ", " + mask16);
+
+	                if ((p16 & (0x01<<(7-k))) != 0)
+	                {
+						//Log.i(TAG, "spydroid ppt, in addMark, 1.");
+	                    offsetY[y*convertor.getStride() + x] = offsetY[y*convertor.getStride() + x + 1] = tagY;
+	                    offsetY[(y+1)*convertor.getStride() + x] = offsetY[(y+1)*convertor.getStride() + x +1] = tagY;
+						//offsetY[y*convertor.getStride() + x] = tagY;
+	                    offsetU[y * convertor.getStride()/2 + x] =tagU;
+	                    offsetV[y * convertor.getStride()/2 + x + 1] = tagV;
+	                }
+	                else
+					{
+						//Log.i(TAG, "spydroid ppt, in addMark, 0.");
+					}
+	                mask16 = (byte)(mask16 >> 1);  //循环移位取数据
+	            }
+
+	        }
+	        //p++;
+	    }
+	//	System.arraycopy(data, 0, des, 0, 3*convertor.getStride()*convertor.getSliceHeigth()/2);
+	}
+	
 	/**
 	 * Video encoding is done by a MediaCodec.
 	 */
@@ -426,7 +515,7 @@ public abstract class VideoStream extends MediaStream {
 		}
 
 		EncoderDebugger debugger = EncoderDebugger.debug(mSettings, mQuality.resX, mQuality.resY);
-		final NV21Convertor convertor = debugger.getNV21Convertor();
+		convertor = debugger.getNV21Convertor();
 
 		mMediaCodec = MediaCodec.createByCodecName(debugger.getEncoderName());
 		MediaFormat mediaFormat = MediaFormat.createVideoFormat("video/avc", mQuality.resX, mQuality.resY);
@@ -452,7 +541,10 @@ public abstract class VideoStream extends MediaStream {
 					int bufferIndex = mMediaCodec.dequeueInputBuffer(500000);
 					if (bufferIndex>=0) {
 						inputBuffers[bufferIndex].clear();
+						addMark(data);
 						convertor.convert(data, inputBuffers[bufferIndex]);
+						//byte[] mard_data = new byte[3*convertor.getStride()*convertor.getSliceHeigth()/2];
+					    //addMark(inputBuffers[bufferIndex], mard_data);
 						mMediaCodec.queueInputBuffer(bufferIndex, 0, inputBuffers[bufferIndex].position(), now, 0);
 					} else {
 						Log.e(TAG,"No buffer available !");

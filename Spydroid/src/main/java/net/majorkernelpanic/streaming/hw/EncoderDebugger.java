@@ -195,6 +195,7 @@ public class EncoderDebugger {
 		int count = 0, n = 1;
 		for (int i=0;i<encoders.length;i++) {
 			count += encoders[i].formats.length;
+			Log.i(TAG, "ppt, in debug, encoders[" + i +  "]:" + encoders[i].name);
 		}
 		Log.i(TAG, "codec panpan test, in debug, encoders.length = " + encoders.length);
 		// Tries available encoders

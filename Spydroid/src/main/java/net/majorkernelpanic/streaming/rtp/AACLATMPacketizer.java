@@ -104,18 +104,19 @@ public class AACLATMPacketizer extends AbstractPacketizer implements Runnable {
 					// AU-headers-length field: contains the size in bits of a AU-header
 					// 13+3 = 16 bits -> 13bits for AU-size and 3bits for AU-Index / AU-Index-delta 
 					// 13 bits will be enough because ADTS uses 13 bits for frame length
-					buffer[rtphl] = 0;
+					buffer[rtphl] = 0;//这两个字节是固定的，前13bit是头长度0x02，后面3bit是0x00
 					buffer[rtphl+1] = 0x10; 
 
 					// AU-size
-					buffer[rtphl+2] = (byte) (length>>5);
-					buffer[rtphl+3] = (byte) (length<<3);
+					buffer[rtphl+2] = (byte) (length>>5);//前8bit
+					buffer[rtphl+3] = (byte) (length<<3);//后5bit
 
 					// AU-Index
-					buffer[rtphl+3] &= 0xF8;
+					buffer[rtphl+3] &= 0xF8;//清掉后面3bit
 					buffer[rtphl+3] |= 0x00;
 					
 					send(rtphl+length+4);
+					//Log.i(TAG, "ppt, in AACLATMPacketizer, buffer[1]: " + (int)(buffer[1] & 0xff));
 					
 				} else {
 					socket.commitBuffer();

@@ -502,7 +502,8 @@ public class Session {
 			InvalidSurfaceException, 
 			UnknownHostException,
 			IOException {
-
+		Exception ee = new Exception("ppt, in syncStart Session.java");
+		ee.printStackTrace();
 		syncStart(1);
 		try {
 			syncStart(0);

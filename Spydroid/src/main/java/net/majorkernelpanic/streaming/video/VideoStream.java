@@ -501,8 +501,9 @@ public abstract class VideoStream extends MediaStream {
 		updateCamera();
 
 		// Estimates the framerate of the camera
-		measureFramerate();
-
+		if(false){
+			measureFramerate();
+		}
 		// Starts the preview if needed
 		if (!mPreviewStarted) {
 			try {
@@ -520,6 +521,7 @@ public abstract class VideoStream extends MediaStream {
 		mMediaCodec = MediaCodec.createByCodecName(debugger.getEncoderName());
 		MediaFormat mediaFormat = MediaFormat.createVideoFormat("video/avc", mQuality.resX, mQuality.resY);
 		mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, mQuality.bitrate);
+		Log.i(TAG, "ppt, in encodeWithMediaCodecMethod1, mQuality.framerate: " + mQuality.framerate);
 		mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, mQuality.framerate);	
 		mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT,debugger.getEncoderColorFormat());
 		mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
@@ -561,6 +563,7 @@ public abstract class VideoStream extends MediaStream {
 		// The packetizer encapsulates the bit stream in an RTP stream and send it over the network
 		mPacketizer.setDestination(mDestination, mRtpPort, mRtcpPort);
 		mPacketizer.setInputStream(new MediaCodecInputStream(mMediaCodec));
+		Log.i(TAG, "ppt, in encodeWithMediaCodecMethod1, go to mPacketizer.start.\n");
 		mPacketizer.start();
 
 		mStreaming = true;

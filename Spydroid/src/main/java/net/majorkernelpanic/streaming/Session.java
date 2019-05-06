@@ -38,6 +38,7 @@ import net.majorkernelpanic.streaming.video.VideoStream;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.util.Log;
 
 /**
  * You should instantiate this class with the {@link SessionBuilder}.<br />
@@ -458,6 +459,7 @@ public class Session {
 				InetAddress destination =  InetAddress.getByName(mDestination);
 				stream.setTimeToLive(mTimeToLive);
 				stream.setDestinationAddress(destination);
+				Log.i("Session", "ppt, in syncStart Session.java, go to stream.start.\n");
 				stream.start();
 				if (getTrack(1-id) == null || getTrack(1-id).isStreaming()) {
 					postSessionStarted();

@@ -59,10 +59,15 @@ public class VideoQuality {
 	 * @param bitrate The bitrate in bit per seconds 
 	 */
 	public VideoQuality(int resX, int resY, int framerate, int bitrate) {
+	    Log.i(TAG, "ppt, in VideoQuality, res:" + resX + ", " + resY);
+		
 		this.framerate = framerate;
 		this.bitrate = bitrate;
 		this.resX = resX;
 		this.resY = resY;
+
+		Exception e = new Exception("ppt, in VideoQuality");
+		//e.printStackTrace();
 	}
 
 	public int framerate = 0;

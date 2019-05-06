@@ -105,8 +105,9 @@ public class NV21Convertor {
 	}
 	
 	public void convert(byte[] data, ByteBuffer buffer) {
-		byte[] result = convert(data);
-		buffer.put(result, 0, result.length);
+		//byte[] result = convert(data);
+		//buffer.put(result, 0, result.length);
+		buffer.put(data, 0, data.length);
 	}
 	
 	public byte[] convert(byte[] data) {

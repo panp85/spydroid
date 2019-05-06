@@ -22,6 +22,7 @@ package net.majorkernelpanic.streaming.video;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,7 @@ import net.majorkernelpanic.streaming.Stream;
 import net.majorkernelpanic.streaming.exceptions.CameraInUseException;
 import net.majorkernelpanic.streaming.exceptions.ConfNotSupportedException;
 import net.majorkernelpanic.streaming.exceptions.InvalidSurfaceException;
+import net.majorkernelpanic.streaming.exceptions.StorageUnavailableException;
 import net.majorkernelpanic.streaming.gl.SurfaceView;
 import net.majorkernelpanic.streaming.hw.EncoderDebugger;
 import net.majorkernelpanic.streaming.hw.NV21Convertor;
@@ -46,6 +48,7 @@ import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
 import android.media.MediaRecorder;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -230,6 +233,28 @@ public abstract class VideoStream extends MediaStream {
 	 */
 	public void setVideoQuality(VideoQuality videoQuality) {
 		mRequestedQuality = videoQuality.clone();
+
+		try{
+			Log.i(TAG, "ppt, in setVideoQuality VideoStream.java, mStreaming: " + mStreaming);
+			if(mStreaming){
+				stop();
+				Thread.sleep(3000);
+				start();
+			}
+		} catch (CameraInUseException e) {
+			throw e;
+		} catch (ConfNotSupportedException e) {
+			throw e;
+		} catch (InvalidSurfaceException e) {
+			throw e;
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (IOException e) {
+			//throw e;
+		}
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 	}
 
 	/** 
@@ -517,14 +542,19 @@ public abstract class VideoStream extends MediaStream {
 
 		EncoderDebugger debugger = EncoderDebugger.debug(mSettings, mQuality.resX, mQuality.resY);
 		convertor = debugger.getNV21Convertor();
+		
+		mQuality = getVideoQuality();
 
-		mMediaCodec = MediaCodec.createByCodecName(debugger.getEncoderName());
-		MediaFormat mediaFormat = MediaFormat.createVideoFormat("video/avc", mQuality.resX, mQuality.resY);
+		mMediaCodec = MediaCodec.createByCodecName(debugger.getEncoderName()); //OMX.qcom.video.encoder.avc
+		Log.i(TAG, "ppt, in encodeWithMediaCodecMethod1, mQuality.resolution: " + 
+			mQuality.resX + ", " + mQuality.resY);
+		MediaFormat mediaFormat = MediaFormat.createVideoFormat("video/avc", mQuality.resX, mQuality.resY);//640x480
+		Log.i(TAG, "ppt, in encodeWithMediaCodecMethod1, mQuality.bitrate: " + mQuality.bitrate);
 		mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, mQuality.bitrate);
 		Log.i(TAG, "ppt, in encodeWithMediaCodecMethod1, mQuality.framerate: " + mQuality.framerate);
 		mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, mQuality.framerate);	
 		mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT,debugger.getEncoderColorFormat());
-		mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+		mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 0);
 		mMediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
 		mMediaCodec.start();
 
@@ -543,7 +573,7 @@ public abstract class VideoStream extends MediaStream {
 					int bufferIndex = mMediaCodec.dequeueInputBuffer(500000);
 					if (bufferIndex>=0) {
 						inputBuffers[bufferIndex].clear();
-						addMark(data);
+						//addMark(data);
 						convertor.convert(data, inputBuffers[bufferIndex]);
 						//byte[] mard_data = new byte[3*convertor.getStride()*convertor.getSliceHeigth()/2];
 					    //addMark(inputBuffers[bufferIndex], mard_data);

@@ -365,7 +365,7 @@ public class RtspServer extends Service {
 			Request request;
 			Response response;
 
-			Log.i(TAG, "rtsp panpan test, in WorkerThread run, Connection from "+mClient.getInetAddress().getHostAddress());
+			Log.i(TAG, "ppt, in WorkerThread run, Connection from "+mClient.getInetAddress().getHostAddress());
 
 			while (!Thread.interrupted()) {
 
@@ -503,10 +503,13 @@ public class RtspServer extends Service {
 				mSession.getTrack(trackId).setDestinationPorts(p1, p2);
 				
 				boolean streaming = isStreaming();
+				Log.i(TAG, "ppt, in processRequest, go to mSession.syncStart.\n");
 				mSession.syncStart(trackId);
+				Log.i(TAG, "ppt, in processRequest, after 0.\n");
 				if (!streaming && isStreaming()) {
 					postMessage(MESSAGE_STREAMING_STARTED);
 				}
+				Log.i(TAG, "ppt, in processRequest, after 1.\n");
 
 				response.attributes = "Transport: RTP/AVP/UDP;"+(InetAddress.getByName(destination).isMulticastAddress()?"multicast":"unicast")+
 						";destination="+mSession.getDestination()+

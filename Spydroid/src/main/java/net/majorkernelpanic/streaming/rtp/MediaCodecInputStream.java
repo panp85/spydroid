@@ -46,7 +46,7 @@ public class MediaCodecInputStream extends InputStream {
 	private ByteBuffer mBuffer = null;
 	private int mIndex = -1;
 	private boolean mClosed = false;
-	
+	public H264Packetizer packetizer = null;
 	public MediaFormat mMediaFormat;
 
 	public MediaCodecInputStream(MediaCodec mediaCodec) {
@@ -63,7 +63,12 @@ public class MediaCodecInputStream extends InputStream {
 	public int read() throws IOException {
 		return 0;
 	}
-
+	public void setPacketizer(H264Packetizer p){
+		packetizer = p;
+	}
+	public void setPPS_SPS(byte[] pps, byte[] sps){
+		packetizer.setStreamParameters(pps, sps);
+	}
 	@Override
 	public int read(byte[] buffer, int offset, int length) throws IOException {
 		int min = 0;
@@ -81,7 +86,22 @@ public class MediaCodecInputStream extends InputStream {
 						mBuffers = mMediaCodec.getOutputBuffers();
 					} else if (mIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
 						mMediaFormat = mMediaCodec.getOutputFormat();
-						Log.i(TAG,mMediaFormat.toString());
+						
+						// The PPS and PPS shoud be there
+						ByteBuffer spsb = mMediaFormat.getByteBuffer("csd-0");
+						ByteBuffer ppsb = mMediaFormat.getByteBuffer("csd-1");
+						byte[] SPS = new byte[spsb.capacity()-4];
+						spsb.position(4);
+						spsb.get(SPS,0,SPS.length);
+						byte[] PPS = new byte[ppsb.capacity()-4];
+						ppsb.position(4);
+						ppsb.get(PPS,0,PPS.length);
+						
+						setPPS_SPS(PPS, SPS);
+						
+						
+						Log.i(TAG,"ppt, mMediaFormat: " + mMediaFormat.toString());
+						
 					} else if (mIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
 						Log.v(TAG,"No buffer available...");
 						//return 0;

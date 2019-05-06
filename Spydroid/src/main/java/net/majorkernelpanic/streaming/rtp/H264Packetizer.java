@@ -105,16 +105,19 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 				// Every 3 secondes, we send two packets containing NALU type 7 (sps) and 8 (pps)
 				// Those should allow the H264 stream to be decoded even if no SDP was sent to the decoder.				
 				delta2 += duration/1000000;
+				
 				if (delta2>3000) {
 					delta2 = 0;
 					if (sps != null) {
+						Log.i(TAG, "ppt, in H264Packetizer, send sps: " + sps);
 						buffer = socket.requestBuffer();
 						socket.markNextPacket();
 						socket.updateTimestamp(ts);
 						System.arraycopy(sps, 0, buffer, rtphl, sps.length);
-						super.send(rtphl+sps.length);
 					}
+					super.send(rtphl+sps.length);
 					if (pps != null) {
+						Log.i(TAG, "ppt, in H264Packetizer, send pps: " + pps);
 						buffer = socket.requestBuffer();
 						socket.updateTimestamp(ts);
 						socket.markNextPacket();
@@ -143,7 +146,7 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 	@SuppressLint("NewApi")
 	private void send() throws IOException, InterruptedException {
 		int sum = 1, len = 0, type;
-
+		//Log.i(TAG, "ppt, in H264Packetizer send, streamType: " + streamType);
 		if (streamType == 0) {
 			// NAL units are preceeded by their length, we parse the length
 			fill(header,0,5);
@@ -177,15 +180,17 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 		// The stream already contains NAL unit type 7 or 8, we don't need 
 		// to add them to the stream ourselves
 		if (type == 7 || type == 8) {
-			Log.v(TAG,"SPS or PPS present in the stream.");
+			Log.i(TAG,"ppt, SPS or PPS present in the stream.");
 			count++;
+		/*
 			if (count>4) {
 				sps = null;
 				pps = null;
 			}
+			*/
 		}
-
-		//Log.d(TAG,"- Nal unit length: " + naluLength + " delay: "+delay/1000000+" type: "+type);
+		
+		Log.d(TAG,"- Nal unit length: " + naluLength + " delay: "+delay/1000000+" type: "+type);
 
 		// Small NAL unit => Single NAL unit 
 		if (naluLength<=MAXPACKETSIZE-rtphl-2) {

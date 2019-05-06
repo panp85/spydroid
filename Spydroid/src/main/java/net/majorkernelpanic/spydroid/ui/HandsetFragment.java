@@ -35,36 +35,47 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class HandsetFragment extends Fragment {
+public class HandsetFragment extends Fragment
+	implements View.OnClickListener{
 
 	public final static String TAG = "HandsetFragment";
 	
     private TextView mDescription1, mDescription2, mLine1, mLine2, mVersion, mSignWifi, mTextBitrate;
+	private Button resolutionBtn;
     private LinearLayout mSignInformation, mSignStreaming;
     private Animation mPulseAnimation;
     
     private SpydroidApplication mApplication;
     private CustomHttpServer mHttpServer;
     private RtspServer mRtspServer;
+	SharedPreferences settings;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	mApplication  = (SpydroidApplication) getActivity().getApplication();
+		
+		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		
     }
     
     
@@ -81,6 +92,10 @@ public class HandsetFragment extends Fragment {
         mSignInformation = (LinearLayout)rootView.findViewById(R.id.information);
         mPulseAnimation = AnimationUtils.loadAnimation(mApplication.getApplicationContext(), R.anim.pulse);
         mTextBitrate = (TextView)rootView.findViewById(R.id.bitrate);
+		
+		resolutionBtn = (Button) rootView.findViewById(R.id.resolution);
+		resolutionBtn.setOnClickListener(this);
+
         return rootView ;
     }
 	
@@ -115,6 +130,37 @@ public class HandsetFragment extends Fragment {
     	getActivity().registerReceiver(mWifiStateReceiver,new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
     }
 	
+	@Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.resolution:
+                Log.i(TAG, "ppt, in onClick HandsetFragment.java, change resolution");
+		        Toast.makeText(getActivity(), "切换分辨率", Toast.LENGTH_SHORT).show();
+				SharedPreferences.Editor editor = settings.edit();
+				if(settings.getInt("video_resX", 0) == 320){
+					editor.putInt("video_resX", 640);
+					editor.putInt("video_resY", 480);
+				}
+				else{
+					editor.putInt("video_resX", 320);
+					editor.putInt("video_resY", 240);
+				}				
+				editor.commit();
+				
+				//videoResolution.setValue(mApplication.videoQuality.resX+"x"+mApplication.videoQuality.resY);
+			/*
+                Intent intent=new Intent();
+                if(intent!=null)   {
+                    intent.setClass(this, com.pandroid.message.MainActivity_Camera.class); //设置跳转的Activity
+                    startActivity(intent);
+                }
+                else	{
+                    Toast.makeText(this, "该功能未开放，敬请期待", Toast.LENGTH_SHORT).show();
+                }
+             */
+                break;
+        }
+    }
 	public void update() {
 		getActivity().runOnUiThread(new Runnable () {
 			@Override

@@ -76,6 +76,7 @@ public class SessionBuilder {
 	private String mOrigin = null;
 	private String mDestination = null;
 	private Session.Callback mCallback = null;
+	public static VideoStream video = null;
 
 	// Removes the default public constructor
 	private SessionBuilder() {}
@@ -140,7 +141,7 @@ public class SessionBuilder {
 		}
 
 		if (session.getVideoTrack()!=null) {
-			VideoStream video = session.getVideoTrack();
+			video = session.getVideoTrack();
 			video.setFlashState(mFlash);
 			video.setVideoQuality(mVideoQuality);
 			video.setSurfaceView(mSurfaceView);
@@ -184,6 +185,10 @@ public class SessionBuilder {
 	/** Sets the video stream quality. */
 	public SessionBuilder setVideoQuality(VideoQuality quality) {
 		mVideoQuality = quality.clone();
+		Log.i(TAG, "ppt, in setVideoQuality, video: " + video);
+		if(video != null){
+			video.setVideoQuality(mVideoQuality);
+		}
 		return this;
 	}
 	
@@ -196,6 +201,7 @@ public class SessionBuilder {
 	/** Sets the audio quality. */
 	public SessionBuilder setAudioQuality(AudioQuality quality) {
 		mAudioQuality = quality.clone();
+		
 		return this;
 	}
 

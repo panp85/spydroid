@@ -43,6 +43,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 @ReportsCrashes(formKey = "dGhWbUlacEV6X0hlS2xqcmhyYzNrWlE6MQ", customReportContent = { APP_VERSION_NAME, PHONE_MODEL, BRAND, PRODUCT, ANDROID_VERSION, STACK_TRACE, USER_APP_START_DATE, USER_CRASH_DATE, LOGCAT, DEVICE_FEATURES, SHARED_PREFERENCES })
 public class SpydroidApplication extends android.app.Application {
@@ -92,7 +93,7 @@ public class SpydroidApplication extends android.app.Application {
 		audioEncoder = (Integer.parseInt(android.os.Build.VERSION.SDK)<14) ? SessionBuilder.AUDIO_AMRNB : SessionBuilder.AUDIO_AAC;
 		audioEncoder = Integer.parseInt(settings.getString("audio_encoder", String.valueOf(audioEncoder)));
 		videoEncoder = Integer.parseInt(settings.getString("video_encoder", String.valueOf(videoEncoder)));
-
+		Log.i(TAG, "ppt, in onCreate SpydroidApplication.java, go to new VideoQuality.");
 		// Read video quality settings from the preferences 
 		videoQuality = new VideoQuality(
 						settings.getInt("video_resX", videoQuality.resX),
@@ -120,9 +121,13 @@ public class SpydroidApplication extends android.app.Application {
 	private OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-			if (key.equals("video_resX") || key.equals("video_resY")) {
+			if (key.equals("video_resX") /*|| key.equals("video_resY")*/) {
+				Log.i(TAG, "ppt, in onSharedPreferenceChanged SpydroidApplication.java, res changes from ["
+					+ videoQuality.resX + "," + videoQuality.resY + "] to [" + sharedPreferences.getInt("video_resX", 0)
+					+ ", " + sharedPreferences.getInt("video_resY", 0) + "]");
 				videoQuality.resX = sharedPreferences.getInt("video_resX", 0);
 				videoQuality.resY = sharedPreferences.getInt("video_resY", 0);
+				SessionBuilder.getInstance().setVideoQuality(videoQuality);
 			}
 
 			else if (key.equals("video_framerate")) {

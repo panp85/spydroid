@@ -109,7 +109,11 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 				if (delta2>3000) {
 					delta2 = 0;
 					if (sps != null) {
-						Log.i(TAG, "ppt, in H264Packetizer, send sps: " + sps);
+						Log.i(TAG, "ppt, in H264Packetizer, send sps: " + sps + ". byte:");
+						for(int i=0; i<sps.length; i++)
+						{
+							Log.i(TAG, " "+(Integer)(sps[i]&0xff));
+						}
 						buffer = socket.requestBuffer();
 						socket.markNextPacket();
 						socket.updateTimestamp(ts);

@@ -241,6 +241,7 @@ public abstract class MediaStream implements Stream {
 					closeSockets();
 					mPacketizer.stop();
 				} else {
+					Log.i(TAG, "ppt, in MediaStream.java stop, go in.\n");
 					mPacketizer.stop();
 					mMediaCodec.stop();
 					mMediaCodec.release();
